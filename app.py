@@ -1,3 +1,4 @@
+#App:(py)
 from flask import Flask, render_template, request, redirect, url_for
 from models import db, Book
 
@@ -51,3 +52,20 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()  # Creates all the tables defined in models.py
     app.run(debug=True)
+
+
+#models:(py)
+from flask_sqlalchemy import SQLAlchemy
+
+# Initialize the SQLAlchemy object without passing 'app'
+db = SQLAlchemy()
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    genre = db.Column(db.String(50), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+    def _repr_(self):
+        return f'<Book {self.title}>'
